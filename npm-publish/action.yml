@@ -1,0 +1,25 @@
+name: 'npm-publish'
+description: 'Publish to npm'
+
+runs:
+  using: composite
+
+  steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
+        shell: bash
+
+      - run: npm test --if-present
+        shell: bash
+
+      - run: npm run build --if-present
+        shell: bash
+
+      - run: npm publish
+        shell: bash
